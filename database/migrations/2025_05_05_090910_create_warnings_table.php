@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('warnings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Employee receiving the warning
+            $table->foreignId('qc_review_id')->constrained()->onDelete('cascade'); // Link to the QC review
+            $table->text('reason'); // Description of the issue or reason for warning
             $table->timestamps();
         });
     }

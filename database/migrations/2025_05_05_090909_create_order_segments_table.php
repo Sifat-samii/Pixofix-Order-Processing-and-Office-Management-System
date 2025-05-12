@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_segments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->string('segment_name');
+            $table->string('file_path')->nullable(); // stores processed image or segment file
+            $table->string('status')->default('unassigned'); // unassigned, in_progress, submitted, approved, rejected
             $table->timestamps();
         });
     }

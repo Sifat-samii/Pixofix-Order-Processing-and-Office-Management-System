@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // employee requesting leave
+            $table->date('from_date');
+            $table->date('to_date');
+            $table->text('reason')->nullable();
+            $table->string('status')->default('pending'); // pending, approved, rejected
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Client who placed the order
             $table->string('title');
-            $table->text('instructions')->nullable(); // Additional notes from client
-            $table->string('status')->default('pending'); // pending, in_progress, completed
+            $table->text('instructions')->nullable(); // Additional client notes
+            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
             $table->timestamp('deadline')->nullable();
             $table->timestamps();
         });

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Main jobs table for queued tasks
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -21,8 +22,9 @@ return new class extends Migration
             $table->unsignedInteger('created_at');
         });
 
+        // Job batches for batch processing (Laravel 8+)
         Schema::create('job_batches', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->integer('total_jobs');
             $table->integer('pending_jobs');
@@ -34,6 +36,7 @@ return new class extends Migration
             $table->integer('finished_at')->nullable();
         });
 
+        // Table for logging failed jobs
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
@@ -50,8 +53,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
+        // Drop in reverse order to avoid FK or dependency issues
         Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('jobs');
     }
 };

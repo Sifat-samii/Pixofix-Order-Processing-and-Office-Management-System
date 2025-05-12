@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('qc_reviews', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_segment_id')->constrained()->onDelete('cascade'); // Segment being reviewed
+            $table->foreignId('reviewer_id')->constrained('users')->onDelete('cascade'); // QC user who reviewed
+            $table->enum('status', ['approved', 'rejected']);
+            $table->text('comments')->nullable(); // Optional comments or error description
             $table->timestamps();
         });
     }
